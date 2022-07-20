@@ -14927,6 +14927,34 @@
      }
     }
    },
+   "v1.ArchConfiguration": {
+    "type": "object",
+    "properties": {
+     "amd64": {
+      "$ref": "#/definitions/v1.ArchSpecificConfiguration"
+     },
+     "arm64": {
+      "$ref": "#/definitions/v1.ArchSpecificConfiguration"
+     }
+    }
+   },
+   "v1.ArchSpecificConfiguration": {
+    "type": "object",
+    "properties": {
+     "emulatedMachines": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "machineType": {
+      "type": "string"
+     },
+     "ovmfPath": {
+      "type": "string"
+     }
+    }
+   },
    "v1.BIOS": {
     "description": "If set (default), BIOS will be used.",
     "type": "object",
@@ -16431,6 +16459,9 @@
     "properties": {
      "apiConfiguration": {
       "$ref": "#/definitions/v1.ReloadableComponentConfiguration"
+     },
+     "archConfiguration": {
+      "$ref": "#/definitions/v1.ArchConfiguration"
      },
      "controllerConfiguration": {
       "$ref": "#/definitions/v1.ReloadableComponentConfiguration"
@@ -18584,6 +18615,10 @@
      "affinity": {
       "description": "If affinity is specifies, obey all the affinity rules",
       "$ref": "#/definitions/k8s.io.api.core.v1.Affinity"
+     },
+     "architecture": {
+      "description": "Specifies the architecture of the vm guest you are attempting to run. Defaults to architecture that KubeVirt was compiled for.",
+      "type": "string"
      },
      "dnsConfig": {
       "description": "Specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy.",

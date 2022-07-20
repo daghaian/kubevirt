@@ -154,6 +154,8 @@ type VirtualMachineInstanceSpec struct {
 	// +listType=atomic
 	// +optional
 	AccessCredentials []AccessCredential `json:"accessCredentials,omitempty"`
+	// Specifies the architecture of the vm guest you are attempting to run. Defaults to architecture that KubeVirt was compiled for.
+	Architecture string `json:"architecture,omitempty"`
 }
 
 func (vmiSpec *VirtualMachineInstanceSpec) UnmarshalJSON(data []byte) error {
@@ -2152,7 +2154,7 @@ type KubeVirtConfiguration struct {
 	SELinuxLauncherType    string                  `json:"selinuxLauncherType,omitempty"`
 	DefaultRuntimeClass    string                  `json:"defaultRuntimeClass,omitempty"`
 	SMBIOSConfig           *SMBiosConfiguration    `json:"smbios,omitempty"`
-
+	ArchConfiguration      *ArchConfiguration      `json:"archConfiguration,omitempty"`
 	// EvictionStrategy defines at the cluster level if the VirtualMachineInstance should be
 	// migrated instead of shut-off in case of a node drain. If the VirtualMachineInstance specific
 	// field is set it overrides the cluster level one.
@@ -2170,6 +2172,17 @@ type KubeVirtConfiguration struct {
 	WebhookConfiguration           *ReloadableComponentConfiguration `json:"webhookConfiguration,omitempty"`
 	ControllerConfiguration        *ReloadableComponentConfiguration `json:"controllerConfiguration,omitempty"`
 	HandlerConfiguration           *ReloadableComponentConfiguration `json:"handlerConfiguration,omitempty"`
+}
+
+type ArchConfiguration struct {
+	Amd64 *ArchSpecificConfiguration `json:"amd64,omitempty"`
+	Arm64 *ArchSpecificConfiguration `json:"arm64,omitempty"`
+}
+
+type ArchSpecificConfiguration struct {
+	OVMFPath         string   `json:"ovmfPath,omitempty"`
+	EmulatedMachines []string `json:"emulatedMachines,omitempty,flow"`
+	MachineType      string   `json:"machineType,omitempty"`
 }
 
 type SMBiosConfiguration struct {

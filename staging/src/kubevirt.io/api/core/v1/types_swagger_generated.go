@@ -37,6 +37,7 @@ func (VirtualMachineInstanceSpec) SwaggerDoc() map[string]string {
 		"dnsPolicy":                     "Set DNS policy for the pod.\nDefaults to \"ClusterFirst\".\nValid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'.\nDNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy.\nTo have DNS options set along with hostNetwork, you have to specify DNS policy\nexplicitly to 'ClusterFirstWithHostNet'.\n+optional",
 		"dnsConfig":                     "Specifies the DNS parameters of a pod.\nParameters specified here will be merged to the generated DNS\nconfiguration based on DNSPolicy.\n+optional",
 		"accessCredentials":             "Specifies a set of public keys to inject into the vm guest\n+listType=atomic\n+optional",
+		"architecture":                  "Specifies the architecture of the vm guest you are attempting to run. Defaults to architecture that KubeVirt was compiled for.",
 	}
 }
 
@@ -672,6 +673,14 @@ func (KubeVirtConfiguration) SwaggerDoc() map[string]string {
 		"evictionStrategy":            "EvictionStrategy defines at the cluster level if the VirtualMachineInstance should be\nmigrated instead of shut-off in case of a node drain. If the VirtualMachineInstance specific\nfield is set it overrides the cluster level one.",
 		"supportedGuestAgentVersions": "deprecated",
 	}
+}
+
+func (ArchConfiguration) SwaggerDoc() map[string]string {
+	return map[string]string{}
+}
+
+func (ArchSpecificConfiguration) SwaggerDoc() map[string]string {
+	return map[string]string{}
 }
 
 func (SMBiosConfiguration) SwaggerDoc() map[string]string {

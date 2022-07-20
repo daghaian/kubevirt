@@ -1,6 +1,8 @@
 package v1
 
 import (
+	"runtime"
+
 	"github.com/pborman/uuid"
 	"k8s.io/apimachinery/pkg/types"
 )
@@ -117,6 +119,10 @@ func SetDefaults_VirtualMachineInstance(obj *VirtualMachineInstance) {
 
 	if obj.Spec.Domain.Features == nil {
 		obj.Spec.Domain.Features = &Features{}
+	}
+
+	if obj.Spec.Architecture == "" {
+		obj.Spec.Architecture = runtime.GOARCH
 	}
 
 	setDefaults_Disk(obj)
