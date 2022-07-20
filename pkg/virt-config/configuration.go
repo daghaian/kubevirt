@@ -231,6 +231,18 @@ func defaultClusterConfig(cpuArch string) *v1.KubeVirtConfiguration {
 				Burst: DefaultVirtWebhookClientBurst,
 			}}},
 		},
+		ArchConfiguration: &v1.ArchConfiguration{
+			Amd64: &v1.ArchSpecificConfiguration{
+				OVMFPath:         DefaultARCHOVMFPath,
+				EmulatedMachines: strings.Split(DefaultAMD64EmulatedMachines, ","),
+				MachineType:      DefaultAMD64MachineType,
+			},
+			Arm64: &v1.ArchSpecificConfiguration{
+				OVMFPath:         DefaultARCHOVMFPath,
+				EmulatedMachines: strings.Split(DefaultAMD64EmulatedMachines, ","),
+				MachineType:      DefaultAMD64MachineType,
+			},
+		},
 	}
 }
 

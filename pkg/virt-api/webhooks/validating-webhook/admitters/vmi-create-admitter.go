@@ -1302,7 +1302,7 @@ func validateFirmwareSerial(field *k8sfield.Path, spec *v1.VirtualMachineInstanc
 
 func validateEmulatedMachine(field *k8sfield.Path, spec *v1.VirtualMachineInstanceSpec, config *virtconfig.ClusterConfig) (causes []metav1.StatusCause) {
 	if machine := spec.Domain.Machine; machine != nil && len(machine.Type) > 0 {
-		supportedMachines := config.GetEmulatedMachines()
+		supportedMachines := config.GetEmulatedMachines(spec.Architecture)
 		var match = false
 		for _, val := range supportedMachines {
 			if regexp.MustCompile(val).MatchString(machine.Type) {

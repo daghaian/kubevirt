@@ -604,7 +604,7 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 		resources.Limits[k8sv1.ResourceMemory] = *resources.Requests.Memory()
 	}
 
-	ovmfPath := t.clusterConfig.GetOVMFPath()
+	ovmfPath := t.clusterConfig.GetOVMFPath(vmi.Spec.Architecture)
 
 	// Read requested hookSidecars from VMI meta
 	requestedHookSidecarList, err := hooks.UnmarshalHookSidecarList(vmi)

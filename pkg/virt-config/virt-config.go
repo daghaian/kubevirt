@@ -127,8 +127,13 @@ func (c *ClusterConfig) GetResourceVersion() string {
 	return c.lastValidConfigResourceVersion
 }
 
-func (c *ClusterConfig) GetMachineType() string {
-	return c.GetConfig().MachineType
+func (c *ClusterConfig) GetMachineType(cpuArch string) string {
+	switch cpuArch {
+	case "arm64":
+		return c.GetConfig().ArchConfiguration.Arm64.MachineType
+	default:
+		return c.GetConfig().ArchConfiguration.Amd64.MachineType
+	}
 }
 
 func (c *ClusterConfig) GetCPUModel() string {
@@ -147,8 +152,13 @@ func (c *ClusterConfig) GetMemoryOvercommit() int {
 	return c.GetConfig().DeveloperConfiguration.MemoryOvercommit
 }
 
-func (c *ClusterConfig) GetEmulatedMachines() []string {
-	return c.GetConfig().EmulatedMachines
+func (c *ClusterConfig) GetEmulatedMachines(cpuArch string) []string {
+	switch cpuArch {
+	case "arm64":
+		return c.GetConfig().ArchConfiguration.Arm64.EmulatedMachines
+	default:
+		return c.GetConfig().ArchConfiguration.Amd64.EmulatedMachines
+	}
 }
 
 func (c *ClusterConfig) GetLessPVCSpaceToleration() int {
@@ -225,8 +235,13 @@ func (c *ClusterConfig) GetSupportedAgentVersions() []string {
 	return c.GetConfig().SupportedGuestAgentVersions
 }
 
-func (c *ClusterConfig) GetOVMFPath() string {
-	return c.GetConfig().OVMFPath
+func (c *ClusterConfig) GetOVMFPath(cpuArch string) string {
+	switch cpuArch {
+	case "arm64":
+		return c.GetConfig().ArchConfiguration.Arm64.OVMFPath
+	default:
+		return c.GetConfig().ArchConfiguration.Amd64.OVMFPath
+	}
 }
 
 func (c *ClusterConfig) GetCPUAllocationRatio() int {
