@@ -100,8 +100,8 @@ func IsKubeVirtServiceAccount(serviceAccount string) bool {
 		serviceAccount == fmt.Sprintf("%s:%s", prefix, rbac.ControllerServiceAccountName)
 }
 
-func IsARM64() bool {
-	if Arch == "arm64" {
+func IsARM64(vmi *v1.VirtualMachineInstance) bool {
+	if vmi.Spec.Architecture == "arm64" {
 		return true
 	}
 	return false

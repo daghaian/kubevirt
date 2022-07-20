@@ -108,8 +108,8 @@ func (mutator *VMIsMutator) Mutate(ar *admissionv1.AdmissionReview) *admissionv1
 			log.Log.V(2).Infof("Failed to set HyperV dependencies: %s", err)
 		}
 
-		// Do some specific setting for Arm64 Arch. It should put before SetObjectDefaults_VirtualMachineInstance
-		if webhooks.IsARM64() {
+		// Do some specific setting for Arm64 Arch. It should put before SetObjectDefaults_VirtualMachineInstance. User specified architecture takes priority, default to
+		if webhooks.IsARM64(newVMI) {
 			log.Log.V(4).Info("Apply Arm64 specific setting")
 			err = webhooks.SetVirtualMachineInstanceArm64Defaults(newVMI)
 			if err != nil {
