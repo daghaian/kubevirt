@@ -1476,7 +1476,7 @@ func GetMemoryOverhead(vmi *v1.VirtualMachineInstance, cpuArch string) *resource
 	// When use uefi boot on aarch64 with edk2 package, qemu will create 2 pflash(64Mi each, 128Mi in total)
 	// it should be considered for memory overhead
 	// Additional information can be found here: https://github.com/qemu/qemu/blob/master/hw/arm/virt.c#L120
-	if vmi.Spec.Architecture == "arm64" {
+	if cpuArch == "arm64" {
 		overhead.Add(resource.MustParse("128Mi"))
 	}
 
