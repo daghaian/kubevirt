@@ -25,7 +25,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"runtime"
 	"time"
 
 	"kubevirt.io/kubevirt/pkg/monitoring/migration"
@@ -548,7 +547,7 @@ func (vca *VirtControllerApp) initCommon() {
 		vca.exporterImage,
 	)
 
-	topologyHinter := topology.NewTopologyHinter(vca.nodeInformer.GetStore(), vca.vmiInformer.GetStore(), runtime.GOARCH, vca.clusterConfig)
+	topologyHinter := topology.NewTopologyHinter(vca.nodeInformer.GetStore(), vca.vmiInformer.GetStore(), vca.clusterConfig)
 
 	vca.vmiController = NewVMIController(vca.templateService,
 		vca.vmiInformer,
