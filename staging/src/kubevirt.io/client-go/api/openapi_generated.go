@@ -14601,6 +14601,11 @@ func schema_kubevirtio_api_core_v1_ArchSpecificConfiguration(ref common.Referenc
 						},
 					},
 					"emulatedMachines": {
+						VendorExtensible: spec.VendorExtensible{
+							Extensions: spec.Extensions{
+								"x-kubernetes-list-type": "atomic",
+							},
+						},
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{

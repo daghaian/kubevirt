@@ -14945,7 +14945,8 @@
       "type": "array",
       "items": {
        "type": "string"
-      }
+      },
+      "x-kubernetes-list-type": "atomic"
      },
      "machineType": {
       "type": "string"

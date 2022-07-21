@@ -680,7 +680,9 @@ func (ArchConfiguration) SwaggerDoc() map[string]string {
 }
 
 func (ArchSpecificConfiguration) SwaggerDoc() map[string]string {
-	return map[string]string{}
+	return map[string]string{
+		"emulatedMachines": "+listType=atomic",
+	}
 }
 
 func (SMBiosConfiguration) SwaggerDoc() map[string]string {

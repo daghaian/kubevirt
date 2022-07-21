@@ -129,6 +129,7 @@ spec:
                             items:
                               type: string
                             type: array
+                            x-kubernetes-list-type: atomic
                           machineType:
                             type: string
                           ovmfPath:
@@ -140,6 +141,7 @@ spec:
                             items:
                               type: string
                             type: array
+                            x-kubernetes-list-type: atomic
                           machineType:
                             type: string
                           ovmfPath:
@@ -2771,6 +2773,7 @@ spec:
                             items:
                               type: string
                             type: array
+                            x-kubernetes-list-type: atomic
                           machineType:
                             type: string
                           ovmfPath:
@@ -2782,6 +2785,7 @@ spec:
                             items:
                               type: string
                             type: array
+                            x-kubernetes-list-type: atomic
                           machineType:
                             type: string
                           ovmfPath:

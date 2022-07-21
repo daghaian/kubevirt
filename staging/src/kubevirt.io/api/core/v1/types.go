@@ -2180,7 +2180,8 @@ type ArchConfiguration struct {
 }
 
 type ArchSpecificConfiguration struct {
-	OVMFPath         string   `json:"ovmfPath,omitempty"`
+	OVMFPath string `json:"ovmfPath,omitempty"`
+	// +listType=atomic
 	EmulatedMachines []string `json:"emulatedMachines,omitempty,flow"`
 	MachineType      string   `json:"machineType,omitempty"`
 }

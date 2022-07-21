@@ -611,6 +611,7 @@ var CRDsValidation map[string]string = map[string]string{
                       items:
                         type: string
                       type: array
+                      x-kubernetes-list-type: atomic
                     machineType:
                       type: string
                     ovmfPath:
@@ -622,6 +623,7 @@ var CRDsValidation map[string]string = map[string]string{
                       items:
                         type: string
                       type: array
+                      x-kubernetes-list-type: atomic
                     machineType:
                       type: string
                     ovmfPath:
