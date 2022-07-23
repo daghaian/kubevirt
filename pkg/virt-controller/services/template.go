@@ -1477,6 +1477,7 @@ func GetMemoryOverhead(vmi *v1.VirtualMachineInstance, cpuArch string) *resource
 	// it should be considered for memory overhead
 	// Additional information can be found here: https://github.com/qemu/qemu/blob/master/hw/arm/virt.c#L120
 	if cpuArch == "arm64" {
+		log.Log.V(4).Info("Adding additional memory overhead because of arm64 architecture")
 		overhead.Add(resource.MustParse("128Mi"))
 	}
 
