@@ -467,7 +467,7 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 			return fmt.Errorf("failed to detect root mount point of %v on the node: %v", kernelBootName, err)
 		}
 
-		err = os.Mkdir(targetDir, 0755)
+		err = os.MkdirAll(targetDir, 0755)
 		if err != nil {
 			return fmt.Errorf("failed to create mount point target %v: %v", targetDir, err)
 		}
