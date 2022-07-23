@@ -312,7 +312,7 @@ func (app *virtHandlerApp) Run() {
 	var hostCpuModel string
 	if virtconfig.IsAMD64(runtime.GOARCH) {
 		log.Log.V(6).Info("Running nodelabeler conditional block")
-}
+
 		nodeLabellerController, err := nodelabeller.NewNodeLabeller(app.clusterConfig, app.virtCli, app.HostOverride, app.namespace)
 		if err != nil {
 			panic(err)
