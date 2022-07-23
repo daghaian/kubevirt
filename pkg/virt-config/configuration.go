@@ -238,9 +238,9 @@ func defaultClusterConfig(cpuArch string) *v1.KubeVirtConfiguration {
 				MachineType:      DefaultAMD64MachineType,
 			},
 			Arm64: &v1.ArchSpecificConfiguration{
-				OVMFPath:         DefaultARCHOVMFPath,
-				EmulatedMachines: strings.Split(DefaultAMD64EmulatedMachines, ","),
-				MachineType:      DefaultAMD64MachineType,
+				OVMFPath:         DefaultAARCH64OVMFPath,
+				EmulatedMachines: strings.Split(DefaultAARCH64EmulatedMachines, ","),
+				MachineType:      DefaultAARCH64MachineType,
 			},
 		},
 	}
