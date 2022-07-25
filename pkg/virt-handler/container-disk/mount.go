@@ -484,7 +484,7 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 		}
 
 		mount := func(artifactPath, targetPath string) error {
-			log.Log.Object(vmi).Infof("DEBUG: Artifact Path: %v Target Path: %v %v\n", artifactPath, targetPath)
+			log.Log.Object(vmi).Infof("DEBUG: Artifact Path: %v Target Path: %v\n", artifactPath, targetPath)
 
 			if artifactPath == "" {
 				return nil
