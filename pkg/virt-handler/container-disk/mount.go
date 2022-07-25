@@ -415,10 +415,12 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 	kb := vmi.Spec.Domain.Firmware.KernelBoot.Container
 
 	targetDir, err := containerdisk.GetDiskTargetDirFromHostView(vmi)
+
 	if err != nil {
 		return fmt.Errorf("failed to get disk target dir: %v", err)
 	}
 	targetDir = filepath.Join(targetDir, containerdisk.KernelBootName)
+	log.Log.Object(vmi).Infof("DEBUG: Target Dir identified as: %v\n", targetDir)
 
 	socketFilePath, err := m.kernelBootSocketPathGetter(vmi)
 	if err != nil {
@@ -441,15 +443,20 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 
 	targetInitrdPath := filepath.Join(targetDir, filepath.Base(kb.InitrdPath))
 	targetKernelPath := filepath.Join(targetDir, filepath.Base(kb.KernelPath))
+	log.Log.Object(vmi).Infof("DEBUG: Target Kernel Path is %v\n", targetKernelPath)
+	log.Log.Object(vmi).Infof("DEBUG: Target Initrd Path is %v\n", targetInitrdPath)
 
 	areKernelArtifactsMounted := func(artifactsDir string, artifactFiles ...string) (bool, error) {
 		if _, err = os.Stat(artifactsDir); os.IsNotExist(err) {
+			log.Log.Object(vmi).Infof("DEBUG: Returning that %v does not exist\n", artifactsDir)
 			return false, nil
 		} else if err != nil {
+			log.Log.Object(vmi).Infof("DEBUG: Stat call failed for %v\n", artifactsDir)
 			return false, err
 		}
-
+		log.Log.Object(vmi).Infof("DEBUG: Artifact dir: %v exists\n", artifactsDir)
 		mounted, err := nodeRes.AreMounted(artifactFiles...)
+		log.Log.Object(vmi).Infof("DEBUG: Returning mounted: %v err: %v\n", mounted, err)
 		return mounted, err
 	}
 
@@ -466,6 +473,10 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 		if err != nil {
 			return fmt.Errorf("failed to detect root mount point of %v on the node: %v", kernelBootName, err)
 		}
+		log.Log.Object(vmi).Infof("DEBUG: Mount root path on node is: %v\n", mountRootPath)
+		if _, err := os.Stat(targetDir); !os.IsNotExist(err) {
+			log.Log.Object(vmi).Infof("DEBUG: Target Dir already exists: %v\n", targetDir)
+		}
 
 		err = os.MkdirAll(targetDir, 0755)
 		if err != nil {
@@ -473,6 +484,8 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 		}
 
 		mount := func(artifactPath, targetPath string) error {
+			log.Log.Object(vmi).Infof("DEBUG: Artifact Path: %v Target Path: %v %v\n", artifactPath, targetPath)
+
 			if artifactPath == "" {
 				return nil
 			}
@@ -481,6 +494,9 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 			if err != nil {
 				return err
 			}
+			log.Log.Object(vmi).Infof("DEBUG: Source Path: %v\n", sourcePath)
+
+			log.Log.Object(vmi).Infof("DEBUG: Creating: %v\n", targetPath)
 
 			file, err := os.Create(targetPath)
 			if err != nil {
@@ -490,9 +506,10 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 
 			out, err := virt_chroot.MountChroot(sourcePath, targetPath, true).CombinedOutput()
 			if err != nil {
+
 				return fmt.Errorf("failed to bindmount %v: %v : %v", kernelBootName, string(out), err)
 			}
-
+			log.Log.Object(vmi).Infof("DEBUG: Sucessfully mounted %v to %v\n", sourcePath, targetPath)
 			return nil
 		}
 

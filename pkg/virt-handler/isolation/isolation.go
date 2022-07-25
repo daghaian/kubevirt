@@ -92,9 +92,11 @@ func (r *RealIsolationResult) IsMounted(mountPoint string) (isMounted bool, err 
 // If error occurs, the first error is returned.
 func (r *RealIsolationResult) AreMounted(mountPoints ...string) (isMounted bool, err error) {
 	for _, mountPoint := range mountPoints {
-		isMounted, err = r.IsMounted(mountPoint)
-		if !isMounted || err != nil {
-			return
+		if mountPoint != "" {
+			isMounted, err = r.IsMounted(mountPoint)
+			if !isMounted || err != nil {
+				return
+			}
 		}
 	}
 
