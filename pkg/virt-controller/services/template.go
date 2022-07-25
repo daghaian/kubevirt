@@ -605,6 +605,7 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 	}
 
 	ovmfPath := t.clusterConfig.GetOVMFPath(vmi.Spec.Architecture)
+	log.Log.V(6).Infof("OVMF Path has been retrieved as: %v\n", ovmfPath)
 
 	// Read requested hookSidecars from VMI meta
 	requestedHookSidecarList, err := hooks.UnmarshalHookSidecarList(vmi)
