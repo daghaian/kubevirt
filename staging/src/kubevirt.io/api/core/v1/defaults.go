@@ -122,7 +122,7 @@ func SetDefaults_VirtualMachineInstance(obj *VirtualMachineInstance) {
 	}
 
 	if obj.Spec.Architecture == "" {
-		obj.Spec.Architecture = runtime.GOARCH
+		obj.Spec.Architecture = "amd64"
 	}
 
 	setDefaults_Disk(obj)
