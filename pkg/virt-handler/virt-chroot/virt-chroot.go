@@ -19,7 +19,11 @@
 
 package virt_chroot
 
-import "os/exec"
+import (
+	"os/exec"
+
+	"kubevirt.io/client-go/log"
+)
 
 const (
 	binaryPath     = "/usr/bin/virt-chroot"
@@ -47,6 +51,7 @@ func MountChroot(sourcePath, targetPath string, ro bool) *exec.Cmd {
 	}
 
 	args = append(args, optionArgs, sourcePath, targetPath)
+	log.Log.Infof("DEBUG: Command being ran for mount is: %v with arguments: %v\n", binaryPath, args)
 	return exec.Command(binaryPath, args...)
 }
 
