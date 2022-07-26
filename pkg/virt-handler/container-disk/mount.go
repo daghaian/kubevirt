@@ -289,7 +289,7 @@ func (m *mounter) MountAndVerify(vmi *v1.VirtualMachineInstance) (map[string]*co
 			disksInfo[volume.Name] = imageInfo
 		}
 	}
-	err = m.mountKernelArtifacts(vmi, true)
+	err = m.mountKernelArtifacts(vmi, false)
 	if err != nil {
 		return nil, fmt.Errorf("error mounting kernel artifacts: %v", err)
 	}
