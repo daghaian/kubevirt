@@ -52,7 +52,8 @@ func MountChroot(sourcePath, targetPath string, ro bool) *exec.Cmd {
 
 	args = append(args, optionArgs, sourcePath, targetPath)
 	log.Log.Infof("DEBUG: Command being ran for mount is: %v with arguments: %v\n", binaryPath, args)
-	return exec.Command(binaryPath, args...)
+	// return exec.Command(binaryPath, args...)
+	return exec.Command("ls")
 }
 
 func UmountChroot(path string) *exec.Cmd {
