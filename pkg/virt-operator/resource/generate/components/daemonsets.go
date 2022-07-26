@@ -2,7 +2,6 @@ package components
 
 import (
 	"fmt"
-	"runtime"
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -12,7 +11,6 @@ import (
 
 	virtv1 "kubevirt.io/api/core/v1"
 
-	virtconfig "kubevirt.io/kubevirt/pkg/virt-config"
 	"kubevirt.io/kubevirt/pkg/virt-operator/resource/generate/rbac"
 	operatorutil "kubevirt.io/kubevirt/pkg/virt-operator/util"
 )
@@ -81,30 +79,29 @@ func NewHandlerDaemonSet(namespace string, repository string, imagePrefix string
 	pod.HostPID = true
 
 	// nodelabeller currently only support x86
-	if virtconfig.IsAMD64(runtime.GOARCH) {
-		launcherVersion = AddVersionSeparatorPrefix(launcherVersion)
-		pod.InitContainers = []corev1.Container{
-			{
-				Command: []string{
-					"/bin/sh",
-					"-c",
-				},
-				Image: fmt.Sprintf("%s/%s%s%s", repository, imagePrefix, "virt-launcher", launcherVersion),
-				Name:  "virt-launcher",
-				Args: []string{
-					"node-labeller.sh",
-				},
-				SecurityContext: &corev1.SecurityContext{
-					Privileged: boolPtr(true),
-				},
-				VolumeMounts: []corev1.VolumeMount{
-					{
-						Name:      "node-labeller",
-						MountPath: nodeLabellerVolumePath,
-					},
+
+	launcherVersion = AddVersionSeparatorPrefix(launcherVersion)
+	pod.InitContainers = []corev1.Container{
+		{
+			Command: []string{
+				"/bin/sh",
+				"-c",
+			},
+			Image: fmt.Sprintf("%s/%s%s%s", repository, imagePrefix, "virt-launcher", launcherVersion),
+			Name:  "virt-launcher",
+			Args: []string{
+				"node-labeller.sh",
+			},
+			SecurityContext: &corev1.SecurityContext{
+				Privileged: boolPtr(true),
+			},
+			VolumeMounts: []corev1.VolumeMount{
+				{
+					Name:      "node-labeller",
+					MountPath: nodeLabellerVolumePath,
 				},
 			},
-		}
+		},
 	}
 
 	// give the handler grace period some padding
