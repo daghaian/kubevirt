@@ -2518,8 +2518,9 @@ func (d *VirtualMachineController) vmUpdateHelperMigrationTarget(origVMI *v1.Vir
 	hostDiskCreator := hostdisk.NewHostDiskCreator(d.recorder, lessPVCSpaceToleration, minimumPVCReserveBytes, virtLauncherRootMount)
 
 	// Add debug outputting the state of hostDisk for each specified volume
+	log.Log.V(6).Info("DEBUG: Checking volumes of vmi spec")
 	for _, vol := range vmi.Spec.Volumes {
-		log.Log.Object(vmi).Infof("Volume with name: %v has hostDisk value of: %v\n", vol.Name, vol.HostDisk)
+		log.Log.V(6).Infof("DEBUG: Volume with name: %v has hostDisk value of: %v\n", vol.Name, vol.HostDisk)
 	}
 
 	err = hostDiskCreator.Create(vmi)
