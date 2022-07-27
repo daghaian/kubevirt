@@ -289,7 +289,7 @@ func (m *mounter) MountAndVerify(vmi *v1.VirtualMachineInstance) (map[string]*co
 			disksInfo[volume.Name] = imageInfo
 		}
 	}
-	err = m.mountKernelArtifacts(vmi, false)
+	err = m.mountKernelArtifacts(vmi, true)
 	if err != nil {
 		return nil, fmt.Errorf("error mounting kernel artifacts: %v", err)
 	}
@@ -441,8 +441,15 @@ func (m *mounter) mountKernelArtifacts(vmi *v1.VirtualMachineInstance, verify bo
 
 	nodeRes := isolation.NodeIsolationResult()
 
-	targetInitrdPath := filepath.Join(targetDir, filepath.Base(kb.InitrdPath))
-	targetKernelPath := filepath.Join(targetDir, filepath.Base(kb.KernelPath))
+	targetInitrdPath := ""
+	targetKernelPath := ""
+	if kb.InitrdPath != "" {
+		targetInitrdPath = filepath.Join(targetDir, filepath.Base(kb.InitrdPath))
+	}
+	if kb.KernelPath != "" {
+		targetKernelPath = filepath.Join(targetDir, filepath.Base(kb.KernelPath))
+	}
+
 	log.Log.Object(vmi).Infof("DEBUG: Target Kernel Path is %v\n", targetKernelPath)
 	log.Log.Object(vmi).Infof("DEBUG: Target Initrd Path is %v\n", targetInitrdPath)
 
