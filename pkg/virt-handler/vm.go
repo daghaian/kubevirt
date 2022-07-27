@@ -2516,6 +2516,12 @@ func (d *VirtualMachineController) vmUpdateHelperMigrationTarget(origVMI *v1.Vir
 
 	// initialize disks images for empty PVC
 	hostDiskCreator := hostdisk.NewHostDiskCreator(d.recorder, lessPVCSpaceToleration, minimumPVCReserveBytes, virtLauncherRootMount)
+
+	// Add debug outputting the state of hostDisk for each specified volume
+	for _, vol := range vmi.Spec.Volumes {
+		log.Log.Object(vmi).Infof("Volume with name: %v has hostDisk value of: %v\n", vol.Name, vol.HostDisk)
+	}
+
 	err = hostDiskCreator.Create(vmi)
 	if err != nil {
 		return fmt.Errorf("preparing host-disks failed: %v", err)
